@@ -6,11 +6,11 @@ export default function Page() {
         const userData = {
             name: FormData.get("name") as string,
             email: FormData.get("email") as string,
-            phone: FormData.get("phone"),
+            phone: FormData.get("phone") as string,
             message: FormData.get("message") as string,
         };
 
-        await prisma.Contact.create({
+        await prisma.contact.create({
             data: userData,
         });
     }
