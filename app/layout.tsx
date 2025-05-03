@@ -1,5 +1,6 @@
 import './globals.css'
 import Image from 'next/image'
+import Link from 'next/link'
 
 export default function RootLayout({
   children,
@@ -13,10 +14,10 @@ export default function RootLayout({
         <h2>İbrahim Fatih Yıldırım</h2>
         <nav>
             <ul>
-                <a href="/home"><li><p>Home</p><Image src="/home.png" alt='' width={30} height={30}></Image></li></a>
-                <a href="/about"><li><p>About</p><Image src="/about.png" alt='' width={30} height={30}></Image></li></a>
-                <a href="/contact"><li><p>Contact</p><Image src="/contact.png" alt='' width={30} height={30}></Image></li></a>
-                <a href="/skills"><li><p>Skills</p><Image src="/skills.png" alt='' width={30} height={30}></Image></li></a>
+                <Link href="/home"><li><p>Home</p><Image src="/home.png" alt='' width={30} height={30}></Image></li></Link>
+                <Link href="/about"><li><p>About</p><Image src="/about.png" alt='' width={30} height={30}></Image></li></Link>
+                <Link href={"/contact"}><li><p>Contact</p><Image src="/contact.png" alt='' width={30} height={30}></Image></li></Link>
+                <Link href={"/skills"}><li><p>Skills</p><Image src="/skills.png" alt='' width={30} height={30}></Image></li></Link>
             </ul>
         </nav>
     </header>
