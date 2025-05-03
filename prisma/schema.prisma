@@ -21,3 +21,12 @@ model Contact {
   phone       String
   message     String
 }
+
+model AdminLogs {
+  id          Int    @id @default(autoincrement())
+  logName     String
+  name        String
+  email       String
+  isLogin     Boolean @default(false)
+  date        DateTime @default(now())
+}

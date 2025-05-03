@@ -256,3 +256,105 @@ main>.frbc>.backend>p{
 .skillsForm button:hover{
     background-color: rgb(71, 92, 39);
 }
+.skills{
+    width: 100%;
+    height: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.skills>.skill{
+    width: 95%;
+    margin: auto;
+    height: auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    text-align: center;
+    justify-content: center;
+    margin-top:100px;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    margin:10px auto;
+}
+.skills>.skill>h2{
+    font-size: clamp(0.7rem, 2vw, 2rem);
+    margin-bottom: 20px;
+}
+.skills>.skill>p{
+    font-size: clamp(0.7rem, 1.5vw, 1.5rem);
+    margin-bottom: 20px;
+}
+
+.adminLoginForm{
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 40vh;
+    left:50vw;
+    min-width: 260px;
+    max-width: 500px;
+    width: 70%;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgb(78, 72, 72);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    margin:10px auto;
+    box-sizing: border-box;
+    padding: 50px;
+}
+.adminLoginForm .inputs{
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.adminLoginForm .inputs input{
+    width: 95%;
+    transform: translateX(-50%);
+    position: relative;
+    height: 40px;
+    left: 50%;
+    border-radius: 5px;
+    border: none;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: clamp(0.7rem, 1.5vw, 1.5rem);
+    transition: all 0.3s ease;
+}
+.adminLoginForm .inputs input:focus{
+    outline: none;
+    width: 97%;
+}
+.adminLoginForm .inputs input::placeholder{
+    color: rgb(78, 72, 72);
+}
+.adminLoginForm .inputs p{
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgb(214, 87, 87);
+    font-size: clamp(0.7rem, 1.5vw, 1.5rem);
+    margin-top: 0px;
+}
+.adminLoginForm .inputs button{
+    width: 100%;
+    height: 40px;
+    border-radius: 5px;
+    background-color: rgb(78, 72, 72);
+    color: white;
+    border: none;
+    font-size: clamp(0.7rem, 1.5vw, 1.5rem);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.adminLoginForm .inputs button:hover{
+    background-color: rgb(71, 92, 39);
+}
+.adminLoginForm .error{
+    color: rgb(214, 87, 87);
+    font-size: clamp(0.7rem, 1.5vw, 1.5rem);
+    margin-top: 10px;
+    z-index: 100;
+}
