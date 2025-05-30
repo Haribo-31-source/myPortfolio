@@ -1,29 +1,23 @@
-"use server";
-
 import { notFound } from 'next/navigation';
 import prisma from '@/lib/prisma';
 
 interface PageProps {
-  params: { id: string }
+  params: {
+    id: string;
+  }
 }
 
 export default async function ProjectPage({ params }: PageProps) {
-  const  {id}  = params;
+  const id = parseInt(params.id);
 
-  async function getProject() {
-    const project = await prisma.skill.findUnique({
-      where: {
-        id: parseInt(id),
-      },
-    });
+  if (isNaN(id)) notFound();
 
-    if (!project) {
-      notFound();
-    }
-    return project;
-  }
+  const project = await prisma.skill.findUnique({
+    where: { id },
+  });
 
-  const project = await getProject();
+  if (!project) notFound();
+
   return (
     <div>
       <h1>Proje ID: {id}</h1>
