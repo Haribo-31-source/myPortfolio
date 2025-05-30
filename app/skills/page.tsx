@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma";
+import Link from "next/link";
 
 export default async function Page() {
     async function getSkill() {
@@ -12,8 +13,10 @@ export default async function Page() {
         <div className="skills">
         {skills.map((skill) => (
             <div key={skill.id} className="skill">
+                <Link href={'/skills/[id]'} as={`/skills/${skill.id}`}>
                 <h2>{skill.name}</h2>
                 <p>{skill.description}</p>
+                </Link>
             </div>
         ))}
         </div>

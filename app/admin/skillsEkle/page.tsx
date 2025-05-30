@@ -1,41 +1,53 @@
+"use client";
+import { useState } from "react";
+import { ChangeEvent } from 'react';
+import axios from 'axios';
+import { postImage } from "@/lib/addSkill";
 
-import { cookies } from "next/headers";
-import prisma from "@/lib/prisma";
-import Crypto from "crypto";
+type CheckAdminResponse = {
+  authorized: boolean;
+};
 
-export default async function Skills() {
 
-    const cookieStore = await cookies();
-    const adminToken1 = cookieStore.get('admin-token');
 
-    if (!adminToken1) {
-      return <div>Admin token not found</div>;
+export default function Skills() {
+  const [file, setFile] = useState<File | null>(null);
+  const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
+
+  //Admin Giriş Token Kontrolü
+
+  async function checkAdmin() {
+    const response = await axios.post<CheckAdminResponse>('/admin/api/checkAdmin', {}, { withCredentials: true });
+    if (response.data.authorized) {
+      console.log("Admin Giriş Yapıldı");
+      setIsAdmin(true);
+    } else {
+      console.log("Admin Giriş Yapılmadı");
+      setIsAdmin(false);
     }
+  }
 
-    // Admin token'ı doğrulamak için hash oluşturuluyor
-    const deger = Crypto.createHash("sha256");
-    deger.update("adminBasarili");  // Buradaki 'adminBasarili' yerine gerçek token kullanmanız gerekebilir.
-    const adminToken = deger.digest("hex");
+  checkAdmin();
 
-    // Admin token'ları karşılaştırıyoruz
-    if (adminToken1.value !== adminToken) {
-      return <div>Admin token is invalid</div>;
-    }
+  // Bu fonksiyon seçilen dosyayı file değişkenine atar
+  
+  const uploadImage = (e: ChangeEvent<HTMLInputElement>) => {
+    setFile(e.target.files![0]);
+  }
 
-    // Skill ekleme fonksiyonu
-    async function addSkill(formData: FormData) {
-        "use server";
-        const userData = {
-            name: formData.get("skillName") as string,
-            description: formData.get("skillD") as string,
-            image: "a", // Burada file yükleme için bir işlem eklemelisiniz
-        };
+  // Bu fonksiyon dosyayı apiye gönderir ve dönen urlyi imageUrl değişkenine atar
 
-        // Skill verisini ekliyoruz
-        await prisma.skill.create({
-            data: userData,
-        });
-    }
+  async function addSkill(formData: FormData) {  
+    await axios.post('/admin/api/addSkill', {
+      name: formData.get("skillName") as string,
+      description: formData.get("skillD") as string,
+      image: await postImage(file!)
+    });
+  
+  }
+
+  if (isAdmin === null) return <div>Loading...</div>;
+  if (!isAdmin) return <div>Admin yetkiniz yok. Giriş gerekli.</div>;
 
   return (
     <div>
@@ -57,7 +69,7 @@ export default async function Skills() {
           required
         />
         <label htmlFor="skillImage">Skill Image</label>
-        <input type="file" name="skillImage" id="skillImage" />
+        <input type="file" name="skillImage" id="skillImage" accept="image/png" onChange={uploadImage} />
         <button type="submit">Submit</button>
       </form>
     </div>

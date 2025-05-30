@@ -1,17 +1,25 @@
 "use client";
 import { useFormik } from "formik";
 import schema from "@/schemas/schema";
+import { useState } from "react";
 
 export default function Login() {
+
+  const [isSucces, setIsSucces] = useState<boolean | null>(null);
   
   const addDb = async () => {
-     await fetch("/admin/api/login/db",{
+     const response = await fetch("/admin/api/login/db",{
       method: "POST",
       body: JSON.stringify({email: values.email, name: values.name , pswd : values.password}),
       headers: {
         "Content-Type": "application/json",
       },
     })
+    
+
+    const responseData = await response.json();
+    if (responseData.admin === true) setIsSucces(true);
+    else setIsSucces(false);
   }
   const {values, errors, handleChange, handleSubmit, isSubmitting, isValid } = useFormik({
     initialValues: {
@@ -40,6 +48,8 @@ export default function Login() {
             <input type="password" name="password" placeholder="Password" value={values.password} required onChange={handleChange} />
             <p className="error">{errors.password}</p>
             <button type="submit" disabled={isSubmitting || !isValid}>Giriş Yap</button>
+            {isSucces && <p>Giriş Başarılı</p>}
+            {!isSucces && <p>Giriş Başarısız , şifreyi kontrol ediniz</p>}
         </div>
     </form>
     </div>

@@ -156,6 +156,8 @@ main>.frbc>.backend>p{
     }
     
 }
+
+
 .contactForm{
     display: flex;
     flex-direction: column;
@@ -205,6 +207,8 @@ main>.frbc>.backend>p{
 .contactForm button:hover{
     background-color: rgb(71, 92, 39);
 }
+
+
 .skillsForm{
     display: flex;
     flex-direction: column;
@@ -256,14 +260,18 @@ main>.frbc>.backend>p{
 .skillsForm button:hover{
     background-color: rgb(71, 92, 39);
 }
+
+
+
 .skills{
+    position: relative;
     width: 100%;
     height: auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
 .skills>.skill{
-    width: 95%;
+    width: 75%;
     margin: auto;
     height: auto;
     display: grid;
@@ -283,6 +291,15 @@ main>.frbc>.backend>p{
 .skills>.skill>p{
     font-size: clamp(0.7rem, 1.5vw, 1.5rem);
     margin-bottom: 20px;
+}
+@media screen and (max-width: 500px) {
+    .skills{
+        grid-template-columns: 1fr;
+    }
+    .skills>.skill{
+        width: 80%;
+    }
+    
 }
 
 .adminLoginForm{

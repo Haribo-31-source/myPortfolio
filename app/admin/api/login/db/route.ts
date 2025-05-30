@@ -52,6 +52,6 @@ export async function POST(request: NextRequest) {
       path: '/',
       maxAge: 60 * 60 * 24 * 1 // 7 gün
     });
-    return NextResponse.json({ success: "Login successful" });
+    return NextResponse.json({ success: "Login successful", admin: true });
   }
 }
