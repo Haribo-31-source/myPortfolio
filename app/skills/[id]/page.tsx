@@ -1,15 +1,16 @@
+"use server";
+
 import { notFound } from 'next/navigation';
 import prisma from '@/lib/prisma';
 
-interface Params {
+interface PageProps {
   params: { id: string }
 }
 
-export default async function ProjectPage({ params }: Params) {
+export default async function ProjectPage({ params }: PageProps) {
   const  {id}  = params;
 
   async function getProject() {
-    "use server";
     const project = await prisma.skill.findUnique({
       where: {
         id: parseInt(id),
