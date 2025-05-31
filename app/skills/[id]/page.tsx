@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import prisma from '@/lib/prisma';
+import type { Metadata } from 'next';
 
 export async function generateStaticParams() {
   const projects = await prisma.skill.findMany();
@@ -8,9 +9,13 @@ export async function generateStaticParams() {
   }));
 }
 
-type Params = Awaited<ReturnType<typeof generateStaticParams>>[0];
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+  return {
+    title: `Project ${params.id}`,
+  };
+}
 
-export default async function ProjectPage({ params }: { params: Params }) {
+export default async function ProjectPage({ params }: { params: { id: string } }) {
   const id = parseInt(params.id);
 
   if (isNaN(id)) notFound();
