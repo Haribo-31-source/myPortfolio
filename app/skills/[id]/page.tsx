@@ -2,6 +2,8 @@ import { notFound } from 'next/navigation';
 import prisma from '@/lib/prisma';
 import type { Metadata } from 'next';
 
+// @ts-ignore
+
 export async function generateStaticParams() {
   const projects = await prisma.skill.findMany();
   return projects.map((project) => ({
