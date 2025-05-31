@@ -1,19 +1,11 @@
 import { notFound } from 'next/navigation';
 import prisma from '@/lib/prisma';
 
-export default async function ProjectPage({ 
-  params 
-}: {
-  params: { id: string }
-}) {
+export default async function ProjectPage({ params }: any) {
   const id = parseInt(params.id);
-
   if (isNaN(id)) notFound();
 
-  const project = await prisma.skill.findUnique({
-    where: { id },
-  });
-
+  const project = await prisma.skill.findUnique({ where: { id } });
   if (!project) notFound();
 
   return (
@@ -24,13 +16,4 @@ export default async function ProjectPage({
       <p>Proje Resmi: {project.image}</p>
     </div>
   );
-}
-
-// Eğer statik üretim yapacaksanız (opsiyonel)
-export async function generateStaticParams() {
-  const projects = await prisma.skill.findMany();
-  
-  return projects.map((project) => ({
-    id: project.id.toString(),
-  }));
 }
