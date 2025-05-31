@@ -1,11 +1,24 @@
 import { notFound } from 'next/navigation';
 import prisma from '@/lib/prisma';
 
-export default async function ProjectPage({ params }: any) {
+export async function generateStaticParams() {
+  const projects = await prisma.skill.findMany();
+  return projects.map((project) => ({
+    id: project.id.toString(),
+  }));
+}
+
+type Params = Awaited<ReturnType<typeof generateStaticParams>>[0];
+
+export default async function ProjectPage({ params }: { params: Params }) {
   const id = parseInt(params.id);
+
   if (isNaN(id)) notFound();
 
-  const project = await prisma.skill.findUnique({ where: { id } });
+  const project = await prisma.skill.findUnique({
+    where: { id },
+  });
+
   if (!project) notFound();
 
   return (
