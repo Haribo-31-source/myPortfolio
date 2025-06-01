@@ -1,8 +1,7 @@
 import { notFound } from 'next/navigation';
 import prisma from '@/lib/prisma';
 import type { Metadata } from 'next';
-
-// @ts-ignore
+import Image from 'next/image';
 
 export async function generateStaticParams() {
   const projects = await prisma.skill.findMany();
@@ -33,7 +32,7 @@ export default async function ProjectPage({ params }: { params: { id: string } }
       <h1>Proje ID: {id}</h1>
       <p>Proje Adı: {project.name}</p>
       <p>Proje Açıklaması: {project.description}</p>
-      <p>Proje Resmi: {project.image}</p>
+      <Image src={project.image} alt={project.name} width={100} height={100}></Image>
     </div>
   );
 }
