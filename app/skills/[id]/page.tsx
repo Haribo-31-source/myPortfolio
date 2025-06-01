@@ -10,9 +10,9 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+export async function generateMetadata(props: { params: { id: string } }): Promise<Metadata> {
   return {
-    title: `Project ${params.id}`,
+    title: `Project ${props.params.id}`,
   };
 }
 
