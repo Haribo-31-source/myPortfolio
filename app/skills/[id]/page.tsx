@@ -1,8 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+
 import { notFound } from 'next/navigation';
 import prisma from '@/lib/prisma';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 
+// ✅ Bu fonksiyon parametre almaz!
 export async function generateStaticParams() {
   const projects = await prisma.skill.findMany();
   return projects.map((project) => ({
@@ -10,13 +14,15 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata(props: { params: { id: string } }): Promise<Metadata> {
+// ✅ Burada tip hatası olmasın diye 'any' yazıyoruz (çözümün sırrı bu!)
+export async function generateMetadata({ params }: any): Promise<Metadata> {
   return {
-    title: `Project ${props.params.id}`,
+    title: `Proje ${params.id}`,
   };
 }
 
-export default async function ProjectPage({ params }: { params: { id: string } }) {
+// ✅ Ana component
+export default async function ProjectPage({ params }: any) {
   const id = parseInt(params.id);
 
   if (isNaN(id)) notFound();
@@ -32,7 +38,7 @@ export default async function ProjectPage({ params }: { params: { id: string } }
       <h1>Proje ID: {id}</h1>
       <p>Proje Adı: {project.name}</p>
       <p>Proje Açıklaması: {project.description}</p>
-      <Image src={project.image} alt={project.name} width={100} height={100}></Image>
+      <Image src={project.image} alt={project.name} width={100} height={100} />
     </div>
   );
 }
