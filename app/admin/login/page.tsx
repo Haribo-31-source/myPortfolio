@@ -49,7 +49,8 @@ export default function Login() {
             <p className="error">{errors.password}</p>
             <button type="submit" disabled={isSubmitting || !isValid}>Giriş Yap</button>
             {isSucces && <p>Giriş Başarılı</p>}
-            {!isSucces && <p>Giriş Başarısız , şifreyi kontrol ediniz</p>}
+            {isSucces === false && <p>Giriş Başarısız , şifreyi kontrol ediniz</p>}
+            {isSucces === null && <p>Fazla tekrar eden girişler yasaklanacaktır</p>}
         </div>
     </form>
     </div>

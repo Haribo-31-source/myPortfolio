@@ -15,8 +15,8 @@ type Skill = {
 const container = {
   visible: {
     transition: {
-      delayChildren: 0.1,
-      staggerChildren: 0.2
+      delayChildren: 5,
+      staggerChildren: 0.5
     }
   }
 }

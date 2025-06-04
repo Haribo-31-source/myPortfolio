@@ -36,7 +36,7 @@ export default async function ProjectPage({ params }: any) {
     <div className="project">
       <p className="projectName">{project.name}</p>
       <div className="projectCenter">
-        <div className="image"><Image src={project.image} alt={project.name} width={100} height={100} className='projectImg' /></div>
+        <div className="image"><Image src={project.image} alt={project.name} width={1000} height={1000} className='projectImg' /></div>
         <div className="texts">
                 <p className="projectName">{project.name}</p>
                 <p>{project.description}</p>
