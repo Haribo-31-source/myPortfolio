@@ -19,7 +19,7 @@ export default function Page() {
             message: formData.get("message") as string,
         };
 
-        const res = await axios.post<Contact>("http://localhost:3000/contact/addMsg", {
+        const res = await axios.post<Contact>("/contact/addMsg", {
             name: userData.name,
             email: userData.email,
             phone: userData.phone,

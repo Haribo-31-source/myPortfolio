@@ -43,7 +43,7 @@ export default function Page() {
 
   useEffect(() => {
     async function getSkill() {
-      const res = await axios.get("http://localhost:3000/skills/get");
+      const res = await axios.get("/skills/get");
       setSkills(res.data as Skill[]);
     }
     getSkill();
