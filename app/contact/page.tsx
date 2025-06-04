@@ -1,23 +1,39 @@
-import prisma from "@/lib/prisma";
+"use client";
+
+import axios from "axios";
+import {motion} from "framer-motion"
+import { useState } from "react";
+
+type Contact = {
+    success: boolean;
+}
 
 export default function Page() {
-    async function newMessage(FormData: FormData) {
-        "use server";
+    const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
+
+    async function newMessage(formData: FormData) {
         const userData = {
-            name: FormData.get("name") as string,
-            email: FormData.get("email") as string,
-            phone: FormData.get("phone") as string,
-            message: FormData.get("message") as string,
+            name: formData.get("name") as string,
+            email: formData.get("email") as string,
+            phone: formData.get("phone") as string,
+            message: formData.get("message") as string,
         };
 
-        await prisma.contact.create({
-            data: userData,
+        const res = await axios.post<Contact>("http://localhost:3000/contact/addMsg", {
+            name: userData.name,
+            email: userData.email,
+            phone: userData.phone,
+            message: userData.message
         });
+        if (res.data.success === true) setIsSuccess(true);
+        else if (res.data.success === false) setIsSuccess(false);
     }
     return (
         <>
             <h1>İletişim Formu</h1>
-            <form action={newMessage} className="contactForm">
+            <motion.form 
+            initial={{opacity:0}} animate={{opacity:1}}
+            action={newMessage} className="contactForm">
                 <label htmlFor="name">İsim:</label>
                 <input type="text" id="name" name="name" placeholder="Adınızı giriniz" required></input>
                 <label htmlFor="email">E-Posta:</label>
@@ -27,7 +43,8 @@ export default function Page() {
                 <label htmlFor="message">Mesaj:</label>
                 <textarea id="message" name="message" placeholder="Mesajınızı giriniz" required></textarea>
                 <button type="submit">Gönder</button>
-
-            </form></>
+                {isSuccess && <p>Mesajınız gönderildi.</p>}
+                {isSuccess === false && <p>Hata oluştu. Lütfen tekrar deneyiniz.</p>}
+            </motion.form></>
     )
 }

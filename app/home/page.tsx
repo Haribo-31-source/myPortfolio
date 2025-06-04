@@ -1,9 +1,12 @@
-import Image from "next/image"
+"use client"
 
-export default function Home() {
+import Image from "next/image"
+import {motion} from "framer-motion"
+
+export default function Page() {
   return (
     <>
-    <div className="container">
+    <motion.div initial={{opacity:0}} animate={{opacity:1}} className="container">
 <main>
         <div className="texts">
         <h1>Hello , I&apos;m İbrahim</h1>
@@ -20,7 +23,7 @@ export default function Home() {
             </div>
         </div>
     </main>
-    </div>
+    </motion.div>
     </>
   )
 }

@@ -375,3 +375,74 @@ main>.frbc>.backend>p{
     margin-top: 10px;
     z-index: 100;
 }
+
+/* app/skills/[id]/page.tsx */
+
+.project{
+    width: 99%;
+    border: 5px solid rgb(78, 72, 72);
+    border-radius: 10px;
+    height: 90vh;
+    transform: translateX(-50%);
+    position: relative;
+    left: 50%;
+    top: 10px;
+}
+
+.project>.projectName{
+    font-size: clamp(0.7rem, 2vw, 2rem);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    background-color: rgb(205, 219, 238);
+    padding: 10px;
+    border-radius: 10px;
+    color: rgb(71, 92, 39);
+    position: relative;
+    transform: translateY(-50%);
+    top: 0;
+    left: 10px;
+    width: 30%;
+    text-align: center;
+}
+
+.project>.projectCenter{
+    position: relative;
+    top: -30px;
+    height: 90%;
+    transform: translateY(-50%);
+    top: 45%;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+}
+
+.project>.projectCenter>.image{
+    height: 85%;
+    position: relative;
+    text-align: center;
+
+}
+
+.project>.projectCenter>.image>.projectImg{
+    position: inherit;
+    height: 100%;
+    width: auto;
+}
+
+.project>.projectCenter>.texts{
+    height: 85%;
+    text-align: center;
+    font-size: clamp(0.7rem, 1.5vw, 1.5rem);
+}
+
+.project>.projectCenter>.texts>.projectName{
+    font-size: clamp(1rem, 2vw, 2rem);
+    color: rgb(45, 63, 18);
+    margin-bottom: 20px;
+}
+
+
+@media screen and (max-width: 500px) {
+    .project>.projectName{
+        width: 50%;
+    }
+    
+}
