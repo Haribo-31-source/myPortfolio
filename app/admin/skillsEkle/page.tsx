@@ -1,6 +1,5 @@
 "use client";
-import { useState } from "react";
-import { ChangeEvent } from 'react';
+import { useEffect, useState, type ChangeEvent } from "react";
 import axios from 'axios';
 import { postImage } from "@/lib/addSkill";
 
@@ -13,21 +12,25 @@ type CheckAdminResponse = {
 export default function Skills() {
   const [file, setFile] = useState<File | null>(null);
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
+  const [checkAdminError, setCheckAdminError] = useState(false);
 
-  //Admin Giriş Token Kontrolü
-
-  async function checkAdmin() {
-    const response = await axios.post<CheckAdminResponse>('/admin/api/checkAdmin', {}, { withCredentials: true });
-    if (response.data.authorized) {
-      console.log("Admin Giriş Yapıldı");
-      setIsAdmin(true);
-    } else {
-      console.log("Admin Giriş Yapılmadı");
-      setIsAdmin(false);
+  useEffect(() => {
+    async function checkAdmin() {
+      try {
+        const response = await axios.post<CheckAdminResponse>(
+          '/admin/api/checkAdmin',
+          {},
+          { withCredentials: true },
+        );
+        setIsAdmin(response.data.authorized);
+      } catch (error: unknown) {
+        console.error("Admin yetkisi kontrol edilemedi:", error);
+        setCheckAdminError(true);
+      }
     }
-  }
 
-  checkAdmin();
+    void checkAdmin();
+  }, []);
 
   // Bu fonksiyon seçilen dosyayı file değişkenine atar
   
@@ -46,6 +49,9 @@ export default function Skills() {
   
   }
 
+  if (checkAdminError) {
+    return <div role="alert">Admin yetkisi kontrol edilemedi. Lütfen daha sonra tekrar deneyin.</div>;
+  }
   if (isAdmin === null) return <div>Loading...</div>;
   if (!isAdmin) return <div>Admin yetkiniz yok. Giriş gerekli.</div>;
 
