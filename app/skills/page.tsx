@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from "next/link";
 import { motion } from "framer-motion"
 import axios from "axios";
+import SkillsSkeleton from "./SkillsSkeleton";
 
 type Skill = {
   id: number;
@@ -15,8 +16,7 @@ type Skill = {
 const container = {
   visible: {
     transition: {
-      delayChildren: 5,
-      staggerChildren: 0.5
+      staggerChildren: 0.15
     }
   }
 }
@@ -40,14 +40,31 @@ const item = {
 
 export default function Page() {
   const [skills, setSkills] = useState<Skill[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
     async function getSkill() {
-      const res = await axios.get("/skills/get");
-      setSkills(res.data as Skill[]);
+      try {
+        const res = await axios.get("/skills/get");
+        setSkills(res.data as Skill[]);
+      } catch (error: unknown) {
+        console.error("Yetenekler yüklenemedi:", error);
+        setHasError(true);
+      } finally {
+        setIsLoading(false);
+      }
     }
     getSkill();
   }, []);
+
+  if (isLoading) {
+    return <SkillsSkeleton />;
+  }
+
+  if (hasError) {
+    return <p className="skillsError" role="alert">Yetenekler yüklenirken bir hata oluştu.</p>;
+  }
 
   return (
     <>

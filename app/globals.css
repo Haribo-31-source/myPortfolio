@@ -411,14 +411,20 @@ main>.frbc>.backend>p{
     transform: translateY(-50%);
     top: 45%;
     display: grid;
-    grid-template-columns: 3fr 1fr;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+    grid-template-areas: "image texts";
+    gap: clamp(16px, 3vw, 40px);
+    align-items: center;
+    box-sizing: border-box;
 }
 
 .project>.projectCenter>.image{
     height: 85%;
+    min-width: 0;
+    min-height: 0;
     position: relative;
     text-align: center;
-
+    grid-area: image;
 }
 
 .project>.projectCenter>.image>.projectImg{
@@ -432,8 +438,11 @@ main>.frbc>.backend>p{
 
 .project>.projectCenter>.texts{
     height: 85%;
+    min-width: 0;
     text-align: center;
     font-size: clamp(15px, 1.5vw, 1.5rem);
+    grid-area: texts;
+    overflow-wrap: anywhere;
 }
 
 .project>.projectCenter>.texts>.projectName{
@@ -449,8 +458,169 @@ main>.frbc>.backend>p{
     }
 
     .project>.projectCenter{
-        grid-template-columns: 1fr;
-        grid-template-rows: 3fr 1fr;
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: minmax(0, 3fr) minmax(0, 1fr);
+        gap: 12px;
+        grid-template-areas:
+            "image"
+            "texts";
     }
     
+}
+
+.skillsLoading{
+    min-height: 260px;
+    padding: 10px 0;
+}
+
+.skillSkeleton{
+    align-content: start;
+    gap: 16px;
+    box-sizing: border-box;
+    min-height: 170px;
+}
+
+.skeletonLine,
+.skeletonBlock,
+.imageLoadingPlaceholder{
+    display: block;
+    overflow: hidden;
+    position: relative;
+    background: #cbd4df;
+    border-radius: 8px;
+}
+
+.skeletonLine::after,
+.skeletonBlock::after,
+.imageLoadingPlaceholder::after{
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(100deg, transparent 10%, rgba(255, 255, 255, 0.75) 50%, transparent 90%);
+    animation: skeletonShimmer 1.35s ease-in-out infinite;
+}
+
+.skeletonTitle{
+    width: 65%;
+    height: clamp(22px, 3vw, 36px);
+    margin: 0 auto 8px;
+}
+
+.skeletonDescription{
+    width: 90%;
+    height: 16px;
+    margin: 0 auto;
+}
+
+.skeletonDescriptionShort{
+    width: 60%;
+}
+
+.skillsError{
+    padding: 40px 20px;
+    text-align: center;
+    color: #9b1c1c;
+}
+
+.projectLoading>.projectName{
+    width: min(30%, 260px);
+    height: 36px;
+    background-color: #cddbee;
+}
+
+.projectLoading>.projectCenter{
+    grid-template-areas: "image texts";
+}
+
+.skillImageSkeleton{
+    display: grid;
+    place-items: center;
+}
+
+.skillImageSkeleton>.skeletonBlock{
+    width: min(85%, 620px);
+    height: 85%;
+}
+
+.skillTextsSkeleton{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 18px;
+}
+
+.skillTextsSkeleton>.skeletonTitle{
+    width: 80%;
+}
+
+.progressiveImage{
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+.progressiveImagePreview,
+.progressiveImageFull{
+    object-fit: contain;
+    transition: filter 700ms ease, opacity 700ms ease;
+}
+
+.progressiveImagePreview{
+    filter: blur(18px);
+    transform: scale(1.05);
+}
+
+.progressiveImageFull{
+    opacity: 0;
+}
+
+.progressiveImage.isLoaded .progressiveImageFull{
+    opacity: 1;
+}
+
+.imageLoadingPlaceholder{
+    position: absolute;
+    inset: 7%;
+}
+
+.imageLoadError{
+    position: absolute;
+    inset: auto 0 12px;
+    text-align: center;
+    color: #9b1c1c;
+    font-size: 0.9rem;
+}
+
+@keyframes skeletonShimmer{
+    100%{
+        transform: translateX(100%);
+    }
+}
+
+@media screen and (max-width: 500px){
+    .projectLoading>.projectCenter{
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: minmax(0, 3fr) minmax(0, 1fr);
+        grid-template-areas:
+            "image"
+            "texts";
+    }
+
+    .projectLoading>.projectName{
+        width: 50%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce){
+    .skeletonLine::after,
+    .skeletonBlock::after,
+    .imageLoadingPlaceholder::after{
+        animation: none;
+    }
+
+    .progressiveImagePreview,
+    .progressiveImageFull{
+        transition: none;
+    }
 }

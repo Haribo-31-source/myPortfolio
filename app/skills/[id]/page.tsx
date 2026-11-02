@@ -4,7 +4,7 @@
 import { notFound } from 'next/navigation';
 import prisma from '@/lib/prisma';
 import type { Metadata } from 'next';
-import Image from 'next/image';
+import ProgressiveSkillImage from './ProgressiveSkillImage';
 
 export async function generateStaticParams() {
   const projects = await prisma.skill.findMany();
@@ -36,10 +36,12 @@ export default async function ProjectPage({ params }: any) {
     <div className="project">
       <p className="projectName">{project.name}</p>
       <div className="projectCenter">
-        <div className="image"><Image src={project.image} alt={project.name} width={1000} height={1000} className='projectImg' /></div>
         <div className="texts">
-                <p className="projectName">{project.name}</p>
-                <p>{project.description}</p>
+          <p className="projectName">{project.name}</p>
+          <p>{project.description}</p>
+        </div>
+        <div className="image">
+          <ProgressiveSkillImage src={project.image} alt={project.name} />
         </div>
       </div>
       
